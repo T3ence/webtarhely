@@ -1,0 +1,29 @@
+Relációs adatmodell:
+
+FELHASZNÁLÓ(UserID, Telefonszám, Jelszó, Név, Email, Lakcím, Jog, Csomag.Név)
+BLOG(BlogID, Név, Katergória, Leírás, Csomag.Név, Link, Cím, Banner)
+CSOMAG(Név, Leírás, Ár)
+BEJEGYZÉS(BejegyzésID, Dátum, Szöveg, Képek, Blog.BlogID)
+KOMMENT(KommentID, Szöveg, Dátum, Felhasználó.UserID, Bejegyzés.BejegyzésID, Fórum.TopicID)
+FÓRUM(TopicID, Téma)
+LÁTOGATÁS(Felhasználó.UserID, Blog.BlogID, Dátum)
+
+
+
+1NF: Teljesül, mert a leképezés után nem maradtak összetett vagy többértékű
+attribútumok
+
+2NF: Mindegyik séma 2NF-ben van.
+
+3NF: Mindegyik séma 3NF-ben van.
+
+
+A relációs adatbázissémák:
+
+FELHASZNÁLÓ(UserID, Telefonszám, Jelszó, Név, Email, Lakcím, Jog, Csomag.Név)
+BLOG(BlogID, Név, Katergória, Leírás, Csomag.Név, Link, Cím, Banner)
+CSOMAG(Név, Leírás, Ár)
+BEJEGYZÉS(BejegyzésID, Dátum, Szöveg, Képek, Blog.BlogID)
+KOMMENT(KommentID, Szöveg, Dátum, Felhasználó.UserID, Bejegyzés.BejegyzésID, Fórum.TopicID)
+FÓRUM(TopicID, Téma)
+LÁTOGATÁS(Felhasználó.UserID, Blog.BlogID, Dátum)
