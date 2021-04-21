@@ -267,7 +267,22 @@ INSERT INTO Forum VALUES(3, 'Szuper Liga');
 INSERT INTO Komment VALUES(1, 'Minden a pénzről szól', TO_DATE('2021 04 20', 'yyyy mm dd'), 41, '', 3);
 INSERT INTO Komment VALUES(2, 'Én várom! :)', TO_DATE('2021 04 20', 'yyyy mm dd'), 11, '', 3);
 
-
+-- A Csomagok tábla feltöltése.
+INSERT INTO Latogatas VALUES(1, 2, TO_DATE('2020 05 22', 'yyyy mm dd'));
+INSERT INTO Latogatas VALUES(1, 4, TO_DATE('2020 05 1', 'yyyy mm dd'));
+INSERT INTO Latogatas VALUES(5, 4, TO_DATE('2020 02 22', 'yyyy mm dd'));
+INSERT INTO Latogatas VALUES(1, 4, TO_DATE('2020 05 5', 'yyyy mm dd'));
+INSERT INTO Latogatas VALUES(6, 4, TO_DATE('2020 05 22', 'yyyy mm dd'));
+INSERT INTO Latogatas VALUES(45, 1, TO_DATE('2020 05 23', 'yyyy mm dd'));
+INSERT INTO Latogatas VALUES(23, 1, TO_DATE('2020 03 11', 'yyyy mm dd'));
+INSERT INTO Latogatas VALUES(7, 3, TO_DATE('2020 10 1', 'yyyy mm dd'));
+INSERT INTO Latogatas VALUES(34, 3, TO_DATE('2020 05 22', 'yyyy mm dd'));
+INSERT INTO Latogatas VALUES(1, 2, TO_DATE('2020 05 22', 'yyyy mm dd'));
+INSERT INTO Latogatas VALUES(21, 4, TO_DATE('2020 05 9', 'yyyy mm dd'));
+INSERT INTO Latogatas VALUES(12, 6, TO_DATE('2020 07 13', 'yyyy mm dd'));
+INSERT INTO Latogatas VALUES(8, 1, TO_DATE('2020 05 8', 'yyyy mm dd'));
+INSERT INTO Latogatas VALUES(3, 5, TO_DATE('2020 09 22', 'yyyy mm dd'));
+INSERT INTO Latogatas VALUES(3, 2, TO_DATE('2020 05 22', 'yyyy mm dd'));
 
 
 
