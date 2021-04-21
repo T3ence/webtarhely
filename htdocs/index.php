@@ -32,7 +32,7 @@
     $tns = "
         (DESCRIPTION=
             (ADDRESS_LIST =
-                (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 5400))
+                (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
             )
             (CONNECT_DATA =
                 (SERVICE_name = xe)
