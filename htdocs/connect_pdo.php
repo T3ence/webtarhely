@@ -3,15 +3,15 @@
 $tns = "
 (DESCRIPTION=
     (ADDRESS_LIST =
-        (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 5400))
+        (ADDRESS = (PROTOCOL = TCP)(HOST = thinkbox.ddns.net)(PORT = 3541))
     )
     (CONNECT_DATA =
         (SERVICE_name = xe)
     ) 
 )";
 
-$db_username = "WEBTARHELY";
-$db_password = "123";
+$db_username = "BENCE";
+$db_password = "Sorpad1234";
 $db = "oci:dbname=".$tns;
 $conn = new PDO($db, $db_username, $db_password);
 $conn ->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
