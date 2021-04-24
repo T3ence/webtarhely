@@ -72,7 +72,9 @@
         <a href="#home" class="w3-bar-item w3-button w3-wide">💾 Webtárhely</a>
         <!-- Right-sided navbar links -->
         <div class="w3-right w3-hide-small">
+            <!--
             <a href="#about" class="w3-bar-item w3-button"><i class="fa fa-child"></i> Rólunk</a>
+            -->
             <a href="#Bejelentkezes" class="w3-bar-item w3-button"><i class="fa fa-user"></i> Bejelentkezés</a>
             <a href="#work" class="w3-bar-item w3-button"><i class="fa fa-th"></i> Blogok</a>
             <a href="#Csomagok" class="w3-bar-item w3-button"><i class="fa fa-usd"></i> Csomagok</a>
@@ -89,7 +91,9 @@
 <!-- Sidebar on small screens when clicking the menu icon -->
 <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
     <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+    <!--
     <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">Rólunk</a>
+    -->
     <a href="#Bejelentkezes" onclick="w3_close()" class="w3-bar-item w3-button">Bejelentkezes</a>
     <a href="#work" onclick="w3_close()" class="w3-bar-item w3-button">WORK</a>
     <a href="#Csomagok" onclick="w3_close()" class="w3-bar-item w3-button">Csomagok</a>
@@ -102,7 +106,9 @@
         <span class="w3-jumbo w3-hide-small">Kezdj el valamit ami igazán számít</span><br>
         <span class="w3-xxlarge w3-hide-large w3-hide-medium">Kezdj el valamit ami igazán számít</span><br>
         <span class="w3-large">Ne vesztegess időt olyan dolgokra ami nem te vagy.</span>
+        <!--
         <p><a href="#about" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Tudj meg többet</a></p>
+        -->
     </div>
     <!--
     <div class="w3-display-bottomleft w3-text-grey w3-large" style="padding:24px 48px">
@@ -117,7 +123,7 @@
 </header>
 
 <!-- About Section -->
-<div class="w3-container" style="padding:128px 16px" id="about">
+<div class="w3-container w3-light-grey" style="padding:128px 16px" id="about">
     <h3 class="w3-center">Magunkról</h3>
     <p class="w3-center w3-large">Key features of our company</p>
     <div class="w3-row-padding w3-center" style="margin-top:64px">
@@ -145,7 +151,7 @@
 </div>
 
 <!-- Promo Section - "We know design" -->
-<div class="w3-container w3-light-grey" style="padding:128px 16px">
+<div class="w3-container" style="padding:128px 16px">
     <div class="w3-row-padding">
         <div class="w3-col m6">
             <h3>Bízza ránk adatait.</h3>
@@ -159,7 +165,7 @@
 </div>
 
 <!-- Bejelentkezes Section -->
-<div class="w3-container" style="padding:128px 16px" id="Bejelentkezes">
+<div class="w3-container w3-light-grey" style="padding:128px 16px" id="Bejelentkezes">
     <h3 class="w3-center">Bejelentkezes / Regisztráció</h3>
     <p class="w3-center w3-large"><strong>Jelentkezz be</strong>, vagy ha még nem tetted <strong>Regisztrálj</strong>!</p>
     <div class="w3-row-padding w3-grayscale " style="margin-top:64px">
@@ -316,7 +322,7 @@
         <div class="w3-col m6">
 
             <?php
-            $stmt = $conn->prepare("select blog.nev, count(blog.blogid) as megtekintes_szam from latogatas inner join blog on latogatas.blogid=blog.blogid group by blog.nev order by megtekintes_szam desc fetch first " . $latogatasok_szama . " rows only");
+            $stmt = $conn->prepare("select blog.nev, count(blog.blogid) as megtekintes_szam from latogatas inner join blog on latogatas.blogid=blog.blogid group by blog.nev order by megtekintes_szam desc fetch first " . /*$blogok_szama*/ 5 . " rows only");
             $result = $stmt->execute();
 
             foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $record) {
@@ -441,8 +447,49 @@
     </div>
 </div>
 
-<!-- Contact Section -->
-<div class="w3-container w3-light-grey" style="padding:128px 16px" id="forum">
+
+
+<div class="w3-container" style="padding:128px 16px" id="forum">
+    <h3 class="w3-center">Fórum</h3>
+    <p class="w3-center w3-large">Legforróbb témáink az elmúlt 60 napban:</p>
+    <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
+        <?php
+
+        $stmt = $conn->prepare("select forum.tema, count(*) as kommentek_szama from forum natural join (select * from komment where komment.letrehozasdatuma>(sysdate - 60) order by komment.letrehozasdatuma) group by forum.tema order by kommentek_szama desc fetch first 3 rows only");
+        $result = $stmt->execute();
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $record) {
+            echo sprintf('<div class="w3-col l4 m6 w3-margin-bottom">
+                                    <div class="w3-card">
+                                    <div class="w3-container">
+                                    <h3>%s</h3>
+                                    <p class="w3-opacity">%s darab komment</p>
+                                    <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-commenting"></i> Megnyit</button></p>
+                                    </div>
+                                    </div>
+                                    </div>
+                                    ', $record['tema'], $record['kommentek_szama']);
+        }
+        ?>
+
+        <!--
+        <div class="w3-col l3 m6 w3-margin-bottom">
+            <div class="w3-card">
+                <img src="/w3images/team1.jpg" alt="Jane" style="width:100%">
+                <div class="w3-container">
+                    <h3>Anja Doe</h3>
+                    <p class="w3-opacity">Art Director</p>
+                    <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+                    <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
+                </div>
+            </div>
+        </div>
+        -->
+    </div>
+</div>
+
+<!-- Contact Section
+<div class="w3-container w3-light-grey" style="padding:128px 16px" id="Contact">
     <h3 class="w3-center">Fórum</h3>
     <p class="w3-center w3-large">Lets get in touch. Send us a message:</p>
     <div style="margin-top:48px">
@@ -461,10 +508,11 @@
                 </button>
             </p>
         </form>
-        <!-- Image of location/map -->
+
         <img src="./imgs/datacenter-2.jpg" class="w3-image w3-greyscale" style="width:100%;margin-top:48px">
     </div>
 </div>
+-->
 
 <!-- Footer -->
 <footer class="w3-center w3-black w3-padding-64">

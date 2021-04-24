@@ -264,8 +264,21 @@ INSERT INTO Forum VALUES(2, 'Autók');
 INSERT INTO Forum VALUES(3, 'Szuper Liga');
 
 -- A Komment tábla feltöltése.
-INSERT INTO Komment VALUES(1, 'Minden a pénzről szól', TO_DATE('2021 04 20', 'yyyy mm dd'), 41, '', 3);
+INSERT INTO Komment VALUES(1, 'Minden a pénzről szól már... :(', TO_DATE('2021 04 20', 'yyyy mm dd'), 41, '', 3);
 INSERT INTO Komment VALUES(2, 'Én várom! :)', TO_DATE('2021 04 20', 'yyyy mm dd'), 11, '', 3);
+INSERT INTO Komment VALUES(3, 'Engem így már nem is érdekel a foci :(', TO_DATE('2021 04 20', 'yyyy mm dd'), 42, '', 3);
+INSERT INTO Komment VALUES(5, '#notosuperleague', TO_DATE('2021 04 20', 'yyyy mm dd'), 17, '', 3);
+INSERT INTO Komment VALUES(6, 'Már vártam erre!', TO_DATE('2021 04 20', 'yyyy mm dd'), 44, '', 3);
+INSERT INTO Komment VALUES(7, 'Eladták magukat :(', TO_DATE('2021 04 20', 'yyyy mm dd'), 3, '', 3);
+
+INSERT INTO Komment VALUES(8, 'BMW a legjobb :P', TO_DATE('2021 04 23', 'yyyy mm dd'), 44, '', 2);
+INSERT INTO Komment VALUES(9, 'Mercedes a legjobb :D', TO_DATE('2021 04 23', 'yyyy mm dd'), 32, '', 2);
+INSERT INTO Komment VALUES(10, 'Mazda a legjobb :O', TO_DATE('2021 04 23', 'yyyy mm dd'), 12, '', 2);
+INSERT INTO Komment VALUES(11, 'Trabant a legjobb :X', TO_DATE('2010 07 1', 'yyyy mm dd'), 2, '', 2);
+
+INSERT INTO Komment VALUES(12, 'Tetszenek ezek a blogok!', TO_DATE('2021 03 22', 'yyyy mm dd'), 5, '', 1);
+INSERT INTO Komment VALUES(13, 'Boldog újévet!', TO_DATE('2021 01 1', 'yyyy mm dd'), 2, '', 1);
+
 
 -- A Csomagok tábla feltöltése.
 INSERT INTO Latogatas VALUES(1, 2, TO_DATE('2020 05 22', 'yyyy mm dd'));
