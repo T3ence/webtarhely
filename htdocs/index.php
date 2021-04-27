@@ -76,7 +76,7 @@
             <a href="#about" class="w3-bar-item w3-button"><i class="fa fa-child"></i> Rólunk</a>
             -->
             <a href="#Bejelentkezes" class="w3-bar-item w3-button"><i class="fa fa-user"></i> Bejelentkezés</a>
-            <a href="#work" class="w3-bar-item w3-button"><i class="fa fa-th"></i> Blogok</a>
+            <a href="#Blogok" class="w3-bar-item w3-button"><i class="fa fa-th"></i> Blogok</a>
             <a href="#Csomagok" class="w3-bar-item w3-button"><i class="fa fa-usd"></i> Csomagok</a>
             <a href="#forum" class="w3-bar-item w3-button"><i class="fa fa-comments"></i> Fórum</a>
         </div>
@@ -90,12 +90,12 @@
 
 <!-- Sidebar on small screens when clicking the menu icon -->
 <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
-    <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+    <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Bezár ×</a>
     <!--
     <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">Rólunk</a>
     -->
     <a href="#Bejelentkezes" onclick="w3_close()" class="w3-bar-item w3-button">Bejelentkezes</a>
-    <a href="#work" onclick="w3_close()" class="w3-bar-item w3-button">WORK</a>
+    <a href="#Blogok" onclick="w3_close()" class="w3-bar-item w3-button">Blogok</a>
     <a href="#Csomagok" onclick="w3_close()" class="w3-bar-item w3-button">Csomagok</a>
     <a href="#forum" onclick="w3_close()" class="w3-bar-item w3-button">Fórum</a>
 </nav>
@@ -122,7 +122,7 @@
     -->
 </header>
 
-<!-- About Section -->
+<!-- About Section
 <div class="w3-container w3-light-grey" style="padding:128px 16px" id="about">
     <h3 class="w3-center">Magunkról</h3>
     <p class="w3-center w3-large">Key features of our company</p>
@@ -149,14 +149,14 @@
         </div>
     </div>
 </div>
-
+-->
 <!-- Promo Section - "We know design" -->
 <div class="w3-container" style="padding:128px 16px">
     <div class="w3-row-padding">
         <div class="w3-col m6">
             <h3>Bízza ránk adatait.</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br>tempor incididunt ut labore et dolore.</p>
-            <p><a href="#work" class="w3-button w3-black"><i class="fa fa-th"> </i> Blogok</a></p>
+            <p><a href="#Blogok" class="w3-button w3-black"><i class="fa fa-th"> </i> Blogok</a></p>
         </div>
         <div class="w3-col m6">
             <img class="w3-image w3-round-large" src="./imgs/computer.jpg" alt="Buildings" width="700" height="394">
@@ -199,7 +199,7 @@
 <!-- TEAM SECTION -->
 
 
-<div class="w3-container" style="padding:128px 16px" id="work">
+<div class="w3-container" style="padding:128px 16px" id="Blogok">
     <h3 class="w3-center">Blogok</h3>
     <p class="w3-center w3-large">Böngésszen változatos témájú blogokat!</strong>!</p>
     <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
