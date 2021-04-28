@@ -1,3 +1,7 @@
+<?php
+// Start the session
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <title>Webtárhely</title>
@@ -72,13 +76,20 @@
         <a href="#home" class="w3-bar-item w3-button w3-wide">💾 Webtárhely</a>
         <!-- Right-sided navbar links -->
         <div class="w3-right w3-hide-small">
-            <!--
-            <a href="#about" class="w3-bar-item w3-button"><i class="fa fa-child"></i> Rólunk</a>
-            -->
-            <a href="#Bejelentkezes" class="w3-bar-item w3-button"><i class="fa fa-user"></i> Bejelentkezés</a>
+
             <a href="#Blogok" class="w3-bar-item w3-button"><i class="fa fa-th"></i> Blogok</a>
             <a href="#Csomagok" class="w3-bar-item w3-button"><i class="fa fa-usd"></i> Csomagok</a>
-            <a href="#forum" class="w3-bar-item w3-button"><i class="fa fa-comments"></i> Fórum</a>
+            <?php
+            if(isset($_SESSION["userid"])){
+                echo '<a href="forum.php" class="w3-bar-item w3-button"><i class="fa fa-comments"></i> Fórum</a>';
+                echo '<a href="/" class="w3-bar-item w3-button"><i class="fa fa-user"></i>'. ' ' . $_SESSION["nev"] .'</a>';
+                echo '<a href="/logout.php" class="w3-bar-item w3-button"><i class="fa fa-sign-out"></i> Kijelentkezés</a>';
+            }else{
+                echo '<a href="#forum" class="w3-bar-item w3-button"><i class="fa fa-comments"></i> Fórum</a>';
+                echo '<a href="regisztracio.php" class="w3-bar-item w3-button"><i class="fa fa-user-plus"></i> Regisztráció</a>';
+                echo '<a href="bejelentkezes.php" class="w3-bar-item w3-button"><i class="fa fa-sign-in"></i> Bejelentkezés</a>';
+            }
+            ?>
         </div>
         <!-- Hide right-floated links on small screens and replace them with a menu icon -->
 
@@ -91,13 +102,20 @@
 <!-- Sidebar on small screens when clicking the menu icon -->
 <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
     <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Bezár ×</a>
-    <!--
-    <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">Rólunk</a>
-    -->
-    <a href="#Bejelentkezes" onclick="w3_close()" class="w3-bar-item w3-button">Bejelentkezes</a>
+
     <a href="#Blogok" onclick="w3_close()" class="w3-bar-item w3-button">Blogok</a>
     <a href="#Csomagok" onclick="w3_close()" class="w3-bar-item w3-button">Csomagok</a>
-    <a href="#forum" onclick="w3_close()" class="w3-bar-item w3-button">Fórum</a>
+    <?php
+    if(isset($_SESSION["userid"])){
+        echo '<a href="forum.php" onclick="w3_close()" class="w3-bar-item w3-button">Fórum</a>';
+        echo '<a href="/" onclick="w3_close()" class="w3-bar-item w3-button"> '.$_SESSION["nev"].'</a>';
+        echo '<a href="logout.php" onclick="w3_close()" class="w3-bar-item w3-button">Kijelentkezés</a>';
+     }else{
+        echo '<a href="#forum" onclick="w3_close()" class="w3-bar-item w3-button">Fórum</a>';
+        echo '<a href="regisztracio.php" onclick="w3_close()" class="w3-bar-item w3-button">Regisztráció</a>';
+        echo '<a href="bejelentkezes.php" onclick="w3_close()" class="w3-bar-item w3-button">Bejelentkezes</a>';
+    }
+    ?>
 </nav>
 
 <!-- Header with full-height image -->
@@ -156,7 +174,7 @@
         <div class="w3-col m6">
             <h3>Bízza ránk adatait.</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br>tempor incididunt ut labore et dolore.</p>
-            <p><a href="#Blogok" class="w3-button w3-black"><i class="fa fa-th"> </i> Blogok</a></p>
+            <p><a href="#Csomagok" class="w3-button w3-black"><i class="fa fa-th"> </i> Csomagjaink</a></p>
         </div>
         <div class="w3-col m6">
             <img class="w3-image w3-round-large" src="./imgs/computer.jpg" alt="Buildings" width="700" height="394">
@@ -164,7 +182,7 @@
     </div>
 </div>
 
-<!-- Bejelentkezes Section -->
+<!-- Bejelentkezes Section
 <div class="w3-container w3-light-grey" style="padding:128px 16px" id="Bejelentkezes">
     <h3 class="w3-center">Bejelentkezes / Regisztráció</h3>
     <p class="w3-center w3-large"><strong>Jelentkezz be</strong>, vagy ha még nem tetted <strong>Regisztrálj</strong>!</p>
@@ -176,7 +194,7 @@
                     <h3>Bejelentkezés</h3>
                     <p class="w3-opacity">Bejelentkezési felület</p>
                     <p>Folytasd azt amit szeretsz!</p>
-                    <p><button class="w3-button w3-light-grey w3-block">Belépés</button></p>
+                    <p><a href="bejelentkezes.php" class="w3-button w3-light-grey w3-block">Belépés</a></p>
                 </div>
             </div>
         </div>
@@ -187,13 +205,13 @@
                     <h3>Regisztráció</h3>
                     <p class="w3-opacity">Regisztrációs felület</p>
                     <p>Kezdj bele valami újba!</p>
-                    <p><button class="w3-button w3-light-grey w3-block"><!--<i class="fa fa-envelope"></i>-->Regisztrálás</button></p>
+                    <p><a href="regisztracio.php" class="w3-button w3-light-grey w3-block">Regisztrálás</a></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+-->
 
 
 <!-- TEAM SECTION -->
@@ -223,20 +241,6 @@
                                     ', $record['nev'], $record['kategoria'], $record['leiras']);
             }
         ?>
-
-        <!--
-        <div class="w3-col l3 m6 w3-margin-bottom">
-            <div class="w3-card">
-                <img src="/w3images/team1.jpg" alt="Jane" style="width:100%">
-                <div class="w3-container">
-                    <h3>Anja Doe</h3>
-                    <p class="w3-opacity">Art Director</p>
-                    <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
-                    <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
-                </div>
-            </div>
-        </div>
-        -->
     </div>
 </div>
 
@@ -332,23 +336,7 @@
                 echo sprintf('<div class="w3-container w3-dark-grey w3-center" style="width:%s%%">%s</div>', $latogatasok_szazalek, $record['megtekintes_szam']);
                 echo sprintf('</div>');
             }
-
-
             ?>
-<!--
-            <p class="w3-wide"><i class="fa fa-camera w3-margin-right"></i>Photography</p>
-            <div class="w3-grey">
-                <div class="w3-container w3-dark-grey w3-center" style="width:90%">90%</div>
-            </div>
-            <p class="w3-wide"><i class="fa fa-desktop w3-margin-right"></i>Web Design</p>
-            <div class="w3-grey">
-                <div class="w3-container w3-dark-grey w3-center" style="width:85%">85%</div>
-            </div>
-            <p class="w3-wide"><i class="fa fa-photo w3-margin-right"></i>Photoshop</p>
-            <div class="w3-grey">
-                <div class="w3-container w3-dark-grey w3-center" style="width:75%">75%</div>
-            </div>
-    -->
         </div>
     </div>
 </div>
@@ -358,6 +346,7 @@
     <h3>Csomagok</h3>
     <p class="w3-large">Válassz a számodra legmegfelelőbb csomagot!</p>
     <div class="w3-row-padding" style="margin-top:64px">
+
 
         <?php
             $stmt = $conn->prepare("select * from csomagok");
@@ -403,46 +392,6 @@
 
         ?>
 
-        <!--
-        <div class="w3-third">
-            <ul class="w3-ul w3-white w3-hover-shadow">
-                <li class="w3-red w3-xlarge w3-padding-48">Pro</li>
-                <li class="w3-padding-16"><b>25GB</b> Storage</li>
-                <li class="w3-padding-16"><b>25</b> Emails</li>
-                <li class="w3-padding-16"><b>25</b> Domains</li>
-                <li class="w3-padding-16"><b>Endless</b> Support</li>
-                <li class="w3-padding-16">
-                    <h2 class="w3-wide">$ 25</h2>
-                    <span class="w3-opacity">per month</span>
-                </li>
-                <li class="w3-light-grey w3-padding-24">
-                    <button class="w3-button w3-black w3-padding-large">Sign Up</button>
-                </li>
-            </ul>
-        </div>
-
-
-
-        <div class="w3-third w3-section">
-            <ul class="w3-ul w3-white w3-hover-shadow">
-                <li class="w3-black w3-xlarge w3-padding-32">Basic</li>
-                <li class="w3-padding-16"><b>10GB</b> Storage</li>
-                <li class="w3-padding-16"><b>10</b> Emails</li>
-                <li class="w3-padding-16"><b>10</b> Domains</li>
-                <li class="w3-padding-16"><b>Endless</b> Support</li>
-                <li class="w3-padding-16">
-                    <h2 class="w3-wide">%s</h2>
-                    <span class="w3-opacity">havonta</span>
-                </li>
-                <li>
-                </li>
-                <li class="w3-light-grey w3-padding-24">
-                    <button class="w3-button w3-black w3-padding-large">Sign Up</button>
-                </li>
-            </ul>
-        </div>
-
-        -->
 
     </div>
 </div>
@@ -517,17 +466,7 @@
 <!-- Footer -->
 <footer class="w3-center w3-black w3-padding-64">
     <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>Az oldal tetejére</a>
-    <!--
-    <div class="w3-xlarge w3-section">
-        <i class="fa fa-facebook-official w3-hover-opacity"></i>
-        <i class="fa fa-instagram w3-hover-opacity"></i>
-        <i class="fa fa-snapchat w3-hover-opacity"></i>
-        <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-        <i class="fa fa-twitter w3-hover-opacity"></i>
-        <i class="fa fa-linkedin w3-hover-opacity"></i>
-    </div>
-    -->
-    <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+    <p>Webtarhely</p>
 </footer>
 
 <script>

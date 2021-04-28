@@ -297,7 +297,11 @@ INSERT INTO Latogatas VALUES(8, 1, TO_DATE('2020 05 8', 'yyyy mm dd'));
 INSERT INTO Latogatas VALUES(3, 5, TO_DATE('2020 09 22', 'yyyy mm dd'));
 INSERT INTO Latogatas VALUES(3, 2, TO_DATE('2020 05 22', 'yyyy mm dd'));
 
+DROP VIEW v_Kommentek_60;
+DROP VIEW v_Kommentek_120;
 
+create view v_Kommentek_60 AS select * from komment where komment.letrehozasdatuma>(sysdate - 60) order by komment.letrehozasdatuma;
+create view v_Kommentek_120 AS select * from komment where komment.letrehozasdatuma>(sysdate - 120) order by komment.letrehozasdatuma;
 
 
 
