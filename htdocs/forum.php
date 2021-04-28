@@ -47,6 +47,22 @@ session_start();
     $db = "oci:dbname=" . $tns;
     $conn = new PDO($db, $db_username, $db_password);
     $conn->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
+
+    if( isset($_POST['addtopic']) ){
+        $uj_tema_neve = $_POST['uj_tema_neve'];
+
+        $next_id = 0;
+        $stmt = $conn->prepare("select count(*) as darab from forum");
+        $result = $stmt->execute();
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $record) {
+            $next_id = $record['darab'];
+        }
+        $next_id++;
+
+        $stmt = $conn->prepare("insert into forum values(".$next_id.",'".$uj_tema_neve."')");
+        $result = $stmt->execute();
+    }
+
 ?>
 
 <!-- Navbar (sit on top) -->
@@ -113,23 +129,25 @@ session_start();
 
     <div class="w3-row-padding w3-grayscale " style="margin-top:64px">
 
-        <div class="w3-col l4 m6 w3-margin-bottom w3-black">
-            <div class="w3-card">
-                <div class="w3-container">
-                    <h3>Új téma indítása</h3>
-                    <p class="w3-opacity">Indíts el egy új beszélgetést!</p>
-                    <p>
-                    <form method="post" action="addtopic.php" target="">
-                        <input type="text" class="w3-input w3-border" name="tema_neve" placeholder="Téma neve">
-                        <br>
-                        <button class="w3-button w3-light-grey w3-block" name="addtopic" type="submit">
-                            <i class="fa fa-level-up"></i>  Mehet
-                        </button>
-                    </form>
-                    </p>
+        <?php if(isset($_SESSION["userid"])) : ?>
+            <div class="w3-col l4 m6 w3-margin-bottom w3-black">
+                <div class="w3-card">
+                    <div class="w3-container">
+                        <h3>Új téma indítása</h3>
+                        <p class="w3-opacity">Indíts el egy új beszélgetést!</p>
+                        <p>
+                        <form method="post" action="forum.php" target="">
+                            <input type="text" class="w3-input w3-border" name="uj_tema_neve" placeholder="Téma neve">
+                            <br>
+                            <button class="w3-button w3-light-grey w3-block" name="addtopic" type="submit">
+                                <i class="fa fa-level-up"></i>  Mehet
+                            </button>
+                        </form>
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
+        <?php endif; ?>
 
         <?php
 

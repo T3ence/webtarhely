@@ -21,8 +21,42 @@ if (isset($_POST['topic_megjelenites'])) {
     $db = "oci:dbname=" . $tns;
     $conn = new PDO($db, $db_username, $db_password);
     $conn->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
-}
 
+    // Komment hozzáadása
+    if (isset($_POST['komment_szoveg'])) {
+
+        if (isset($_POST['topic_id'])) {
+            $topic_id = $_POST['topic_id'];
+            $bejegyzes_id = "null";
+            $header_str = "Location: /forum.php";
+        } else {
+            $topic_id = "null";
+            $bejegyzes_id = $_POST['bejegyzes_id'];
+            $header_str = "Location: /";
+        }
+
+        $komment_szoveg = $_POST['komment_szoveg'];
+        $userid = $_POST['userid'];
+
+        $stmt = $conn->prepare("SELECT count(*) as darab FROM komment");
+        $next_comment_id = $stmt->execute();
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $record) {
+            $next_comment_id = $record['darab'];
+        }
+        $next_comment_id++;
+
+        $stmt = $conn->prepare("insert into komment values(" . $next_comment_id . ",'" . $komment_szoveg . "',sysdate," . $userid . "," . $bejegyzes_id . "," . $topic_id . ")");
+        $result = $stmt->execute();
+    }
+
+    if(isset($_POST['del_komment_id'])){
+            $komment_id = $_POST['del_komment_id'];
+
+            $stmt = $conn->prepare("DELETE komment where kommentid=". $komment_id);
+            $next_comment_id = $stmt->execute();
+    }
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="hu">
@@ -95,11 +129,36 @@ if (isset($_POST['topic_megjelenites'])) {
 </header>
 
 
-<div class="w3-container" style="padding:128px 16px" id="forum">
+<div class="w3-container " style="padding:128px 16px" id="forum">
     <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
+
+        <?php if(isset($_SESSION["userid"])) : ?>
+        <div class="w3-col l7 m6 w3-margin-bottom w3-black w3-center">
+            <div class="w3-card">
+                <div class="w3-container">
+                    <h3>Komment hozzáfűzése</h3>
+                    <form method="post" action="topic_megjelenites.php" target="">
+                        <input type="text" class="w3-input w3-border" name="komment_szoveg" placeholder="Megjegyzés">
+                        <input type="hidden" class="w3-input w3-border" name="tema" value="<?php echo $tema ?>">
+                        <input type="hidden" class="w3-input w3-border" name="kommentek_szama" value="<?php echo $kommentek_szama ?>">
+                        <input type="hidden" class="w3-input w3-border" name="topic_id" value="<?php echo $topic_id ?>">
+                        <input type="hidden" class="w3-input w3-border" name="userid" value="<?php echo  $_SESSION['userid'] ?>">
+                        <p class="w3-left"><i class="fa fa-user-o"></i><?php echo " " . $_SESSION['nev']?></p>
+                        <p class="w3-right"><i class="fa fa-calendar"></i><?php echo " " . date("d-m-Y")?></p>
+                        <button class="w3-button w3-light-grey w3-block" name="topic_megjelenites" type="submit">
+                            <i class="fa fa-send-o"></i>  Mehet
+                        </button>
+                    </form>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+
+
         <?php
 
-        $stmt = $conn->prepare("select * from komment where topicid=".$topic_id);
+        $stmt = $conn->prepare("select * from komment where topicid=".$topic_id." order by letrehozasdatuma desc");
         $result = $stmt->execute();
 
         $i = 0;
@@ -113,20 +172,35 @@ if (isset($_POST['topic_megjelenites'])) {
 
             $position = "";
             if($i % 2 == 0) {
-                $position = "left";
-            }else{
                 $position = "right";
+            }else{
+                $position = "left";
             }
+
+            $komment_id = $record['kommentid'];
+
             echo sprintf('<div class="w3-col l7 m6 w3-margin-bottom w3-%s">
                                     <div class="w3-card">
-                                    <div class="w3-container">
-                                    <h3 class="w3-center">%s</h3>
+                                    <div class="w3-container">', $position);
+            if(isset($_SESSION["userid"]) && $record['userid'] == $_SESSION["userid"]){
+                echo sprintf( '<form method="post" action="topic_megjelenites.php" target="">
+                        <input type="hidden" class="w3-input w3-border" name="del_komment_id" value="%s">
+                        <input type="hidden" class="w3-input w3-border" name="tema" value="%s">
+                        <input type="hidden" class="w3-input w3-border" name="kommentek_szama" value="%s">
+                        <input type="hidden" class="w3-input w3-border" name="topic_id" value="%s">
+                        <input type="hidden" class="w3-input w3-border" name="userid" value="%s">
+                        <button class=" w3-col l2 m2 w3-button w3-black w3-block w3-right" name="topic_megjelenites" type="submit">
+                            <i class="fa fa-remove"></i>  Törlés
+                        </button>
+                    </form>', $komment_id, $tema, $kommentek_szama, $topic_id, $_SESSION['userid']);
+            }
+            echo sprintf('   <h3 class="w3-center">%s</h3>
                                     <p class="w3-left"><i class="fa fa-user-o"></i> %s</p>
                                     <p class="w3-right"><i class="fa fa-calendar"></i> %s</p>
                                     </div>
                                     </div>
                                     </div>
-                                    ', $position, $record['szoveg'], $felhasznalo_neve, $record['letrehozasdatuma'] );
+                                    ', $record['szoveg'], $felhasznalo_neve, $record['letrehozasdatuma'] );
             $i++;
         }
         ?>

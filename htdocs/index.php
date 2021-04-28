@@ -402,22 +402,41 @@ session_start();
     <h3 class="w3-center">Fórum</h3>
     <p class="w3-center w3-large">Legforróbb témáink az elmúlt 60 napban:</p>
     <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
+
         <?php
 
-        $stmt = $conn->prepare("select forum.tema, count(*) as kommentek_szama from forum natural join (select * from komment where komment.letrehozasdatuma>(sysdate - 60) order by komment.letrehozasdatuma) group by forum.tema order by kommentek_szama desc fetch first 3 rows only");
+        $stmt = $conn->prepare("select forum.tema, forum.topicid, count(*) as kommentek_szama from forum inner join v_kommentek_60 on forum.topicid=v_kommentek_60.topicid group by forum.tema, forum.topicid order by kommentek_szama desc fetch first 3 rows only");
         $result = $stmt->execute();
 
         foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $record) {
+            $topicid = $record['topicid'];
+            $stmt_komment = $conn->prepare("select count(*) as darab from komment where komment.topicid=".$topicid);
+            $result_komment = $stmt_komment->execute();
+
+            $kommentek_szama = 0;
+            foreach ($stmt_komment->fetchAll(PDO::FETCH_ASSOC) as $record_komment) {
+                $kommentek_szama = $record_komment['darab'];
+            }
+
             echo sprintf('<div class="w3-col l4 m6 w3-margin-bottom">
                                     <div class="w3-card">
                                     <div class="w3-container">
                                     <h3>%s</h3>
-                                    <p class="w3-opacity">%s darab komment</p>
-                                    <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-commenting"></i> Megnyit</button></p>
+                                    <p class="w3-opacity">%s db komment</p>
+                                    <p>
+                                        <form method="post" action="topic_megjelenites.php" target="">
+                                        <input type="hidden" class="w3-input w3-border" name="tema" value="%s">
+                                        <input type="hidden" class="w3-input w3-border" name="kommentek_szama" value="%s">
+                                        <input type="hidden" class="w3-input w3-border" name="topic_id" value="%s">
+                                        <button class="w3-button w3-light-grey w3-block" name="topic_megjelenites" type="submit">
+                                            <i class="fa fa-commenting"></i>  Megnyit
+                                        </button>
+                                    </form>
+                                    </p>
                                     </div>
                                     </div>
                                     </div>
-                                    ', $record['tema'], $record['kommentek_szama']);
+                                    ', $record['tema'], $kommentek_szama, $record['tema'],  $kommentek_szama, $record['topicid'] );
         }
         ?>
 

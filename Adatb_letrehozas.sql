@@ -267,6 +267,7 @@ INSERT INTO Forum VALUES(3, 'Szuper Liga');
 INSERT INTO Komment VALUES(1, 'Minden a pénzről szól már... :(', TO_DATE('2021 04 20', 'yyyy mm dd'), 41, '', 3);
 INSERT INTO Komment VALUES(2, 'Én várom! :)', TO_DATE('2021 04 20', 'yyyy mm dd'), 11, '', 3);
 INSERT INTO Komment VALUES(3, 'Engem így már nem is érdekel a foci :(', TO_DATE('2021 04 20', 'yyyy mm dd'), 42, '', 3);
+INSERT INTO Komment VALUES(4, 'blah balh blah :P', TO_DATE('2021 04 20', 'yyyy mm dd'), 17, '', 3);
 INSERT INTO Komment VALUES(5, '#notosuperleague', TO_DATE('2021 04 20', 'yyyy mm dd'), 17, '', 3);
 INSERT INTO Komment VALUES(6, 'Már vártam erre!', TO_DATE('2021 04 20', 'yyyy mm dd'), 44, '', 3);
 INSERT INTO Komment VALUES(7, 'Eladták magukat :(', TO_DATE('2021 04 20', 'yyyy mm dd'), 3, '', 3);
