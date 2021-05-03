@@ -227,6 +227,16 @@ session_start();
             $result = $stmt->execute();
 
             foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $record) {
+                $blog_id = $record['blogid'];
+
+                $stmt_bejegy = $conn->prepare("select count(*) as darab from bejegyzesek where bejegyzesek.blogid=".$blog_id);
+                $result_bejegy = $stmt_bejegy->execute();
+
+                $bejegyzesek_szama = 0;
+                foreach ($stmt_bejegy->fetchAll(PDO::FETCH_ASSOC) as $record_bejegy) {
+                    $bejegyzesek_szama = $record_bejegy['darab'];
+                }
+
                 echo sprintf('<div class="w3-col l3 m6 w3-margin-bottom">
                                     <div class="w3-card">
                                     <img src="./imgs/blog.jpg" alt="kep" style="width:100%%">
@@ -234,11 +244,21 @@ session_start();
                                     <h3>%s</h3>
                                     <p class="w3-opacity">%s</p>
                                     <p>%s</p>
-                                    <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-folder-open-o"></i> Megjelenít</button></p>
+                                    <p>
+                                        <form method="post" action="blog_megjelenites.php" target="">
+                                        <input type="hidden" class="w3-input w3-border" name="nev" value="%s">
+                                        <input type="hidden" class="w3-input w3-border" name="tulajdonos_id" value="%s">
+                                        <input type="hidden" class="w3-input w3-border" name="blog_id" value="%s">
+                                        <input type="hidden" class="w3-input w3-border" name="bejegyzesek_szama" value="%s">
+                                        <button class="w3-button w3-light-grey w3-block" name="blog_megjelenites" type="submit">
+                                            <i class="fa fa-commenting"></i>  Megjelenit
+                                        </button>
+                                    </form>
+                                    </p>
                                     </div>
                                     </div>
                                     </div>
-                                    ', $record['nev'], $record['kategoria'], $record['leiras']);
+                                    ', $record['nev'], $record['kategoria'], $record['leiras'] , $record['nev'], $record['tulajdonosid'], $blog_id, $bejegyzesek_szama);
             }
         ?>
     </div>
