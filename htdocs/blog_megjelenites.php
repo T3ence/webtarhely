@@ -102,10 +102,20 @@ if (isset($_POST['blog_megjelenites'])) {
         <a href="/#home" class="w3-bar-item w3-button w3-wide">💾 Webtárhely</a>
         <!-- Right-sided navbar links -->
         <div class="w3-right w3-hide-small">
-            <a href="/#Bejelentkezes" class="w3-bar-item w3-button"><i class="fa fa-user"></i> Bejelentkezés</a>
+
             <a href="/#Blogok" class="w3-bar-item w3-button"><i class="fa fa-th"></i> Blogok</a>
             <a href="/#Csomagok" class="w3-bar-item w3-button"><i class="fa fa-usd"></i> Csomagok</a>
-            <a href="/#forum" class="w3-bar-item w3-button"><i class="fa fa-comments"></i> Fórum</a>
+            <?php
+            if(isset($_SESSION["userid"])){
+                echo '<a href="forum.php" class="w3-bar-item w3-button"><i class="fa fa-comments"></i> Fórum</a>';
+                echo '<a href="/" class="w3-bar-item w3-button"><i class="fa fa-user"></i>'. ' ' . $_SESSION["nev"] .'</a>';
+                echo '<a href="/logout.php" class="w3-bar-item w3-button"><i class="fa fa-sign-out"></i> Kijelentkezés</a>';
+            }else{
+                echo '<a href="/#forum" class="w3-bar-item w3-button"><i class="fa fa-comments"></i> Fórum</a>';
+                echo '<a href="regisztracio.php" class="w3-bar-item w3-button"><i class="fa fa-user-plus"></i> Regisztráció</a>';
+                echo '<a href="bejelentkezes.php" class="w3-bar-item w3-button"><i class="fa fa-sign-in"></i> Bejelentkezés</a>';
+            }
+            ?>
         </div>
         <!-- Hide right-floated links on small screens and replace them with a menu icon -->
 
@@ -118,11 +128,22 @@ if (isset($_POST['blog_megjelenites'])) {
 <!-- Sidebar on small screens when clicking the menu icon -->
 <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
     <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Bezár ×</a>
-    <a href="/#Bejelentkezes" onclick="w3_close()" class="w3-bar-item w3-button">Bejelentkezes</a>
-    <a href="/#Blogok" onclick="w3_close()" class="w3-bar-item w3-button">Blogok</a>
-    <a href="/#Csomagok" onclick="w3_close()" class="w3-bar-item w3-button">Csomagok</a>
-    <a href="/#forum" onclick="w3_close()" class="w3-bar-item w3-button">Fórum</a>
+
+    <a href="#/Blogok" onclick="w3_close()" class="w3-bar-item w3-button">Blogok</a>
+    <a href="#/Csomagok" onclick="w3_close()" class="w3-bar-item w3-button">Csomagok</a>
+    <?php
+    if(isset($_SESSION["userid"])){
+        echo '<a href="forum.php" onclick="w3_close()" class="w3-bar-item w3-button">Fórum</a>';
+        echo '<a href="/" onclick="w3_close()" class="w3-bar-item w3-button"> '.$_SESSION["nev"].'</a>';
+        echo '<a href="logout.php" onclick="w3_close()" class="w3-bar-item w3-button">Kijelentkezés</a>';
+    }else{
+        echo '<a href="#forum" onclick="w3_close()" class="w3-bar-item w3-button">Fórum</a>';
+        echo '<a href="regisztracio.php" onclick="w3_close()" class="w3-bar-item w3-button">Regisztráció</a>';
+        echo '<a href="bejelentkezes.php" onclick="w3_close()" class="w3-bar-item w3-button">Bejelentkezes</a>';
+    }
+    ?>
 </nav>
+
 
 <!-- Header with full-height image -->
 <header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
@@ -133,7 +154,7 @@ if (isset($_POST['blog_megjelenites'])) {
 </header>
 
 
-<div class="w3-container " style="padding:128px 16px" id="forum">
+<div class="w3-container w3-center" style="padding:128px 16px" id="forum">
     <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
 
         <?php if(isset($_SESSION["userid"]) && $_SESSION["userid"]==$tulajdonos_id) : ?>
@@ -180,9 +201,9 @@ if (isset($_POST['blog_megjelenites'])) {
 
             $bejegyzes_id = $record['bejegyzesid'];
 
-            echo sprintf('<div class="w3-col l7 m6 w3-margin-bottom w3-%s">
+            echo sprintf('<div class="w3-col l7 m6 w3-margin-bottom w3-center" style="position: center;width:100%%;margin:auto;">
                                     <div class="w3-card">
-                                    <div class="w3-container">', $position);
+                                    <div class="w3-container">');
             if(isset($_SESSION["userid"]) && $record['tulajdonosid'] == $_SESSION["userid"]){
                 echo sprintf( '<form method="post" action="blog_megjelenites.php" target="">
                         <input type="hidden" class="w3-input w3-border" name="del_bejegyzes_id" value="%s">
@@ -196,6 +217,9 @@ if (isset($_POST['blog_megjelenites'])) {
                         </button>
                     </form>', $bejegyzes_id, $nev, $bejegyzesek_szama, $blog_id,$tulajdonos_id, $_SESSION['userid']);
             }
+            $szoveg = $record['szoveg'];
+            $szoveg = substr($szoveg, 0, 200) . "...";
+
             echo sprintf('   <h2 class="w3-center">%s</h2>
                                     <h3 class="w3-center">%s</h3>
                                     <p class="w3-left"><i class="fa fa-user-o"></i> %s</p>
@@ -210,13 +234,13 @@ if (isset($_POST['blog_megjelenites'])) {
                                         <input type="hidden" class="w3-input w3-border" name="felhasznalo_neve" value="%s">
                                         <input type="hidden" class="w3-input w3-border" name="letrehozas_datum" value="%s">
                                         <button class="w3-button w3-light-grey w3-block" name="bejegy_open" type="submit">
-                                            <i class="fa fa-commenting"></i>  Kommentek
+                                            <i class="fa fa-commenting"></i>  Megnyit
                                         </button>
                                     </form>
                                     </div>
                                     </div>
                                     </div>
-                                    ',$record['cim'], $record['szoveg'], $felhasznalo_neve, $record['letrehozasdatuma'], $record['cim'],$nev, $record['bejegyzesid'], $blog_id, $bejegyzesek_szama, $record['szoveg'], $felhasznalo_neve, $record['letrehozasdatuma'] );
+                                    ',$record['cim'], $szoveg, $felhasznalo_neve, $record['letrehozasdatuma'], $record['cim'],$nev, $record['bejegyzesid'], $blog_id, $bejegyzesek_szama, $record['szoveg'], $felhasznalo_neve, $record['letrehozasdatuma'] );
             $i++;
         }
         ?>

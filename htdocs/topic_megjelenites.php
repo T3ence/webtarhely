@@ -92,16 +92,27 @@ if (isset($_POST['topic_megjelenites'])) {
 <body>
 
 
+
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
     <div class="w3-bar w3-white w3-card" id="myNavbar">
         <a href="/#home" class="w3-bar-item w3-button w3-wide">💾 Webtárhely</a>
         <!-- Right-sided navbar links -->
         <div class="w3-right w3-hide-small">
-            <a href="/#Bejelentkezes" class="w3-bar-item w3-button"><i class="fa fa-user"></i> Bejelentkezés</a>
+
             <a href="/#Blogok" class="w3-bar-item w3-button"><i class="fa fa-th"></i> Blogok</a>
             <a href="/#Csomagok" class="w3-bar-item w3-button"><i class="fa fa-usd"></i> Csomagok</a>
-            <a href="/#forum" class="w3-bar-item w3-button"><i class="fa fa-comments"></i> Fórum</a>
+            <?php
+            if(isset($_SESSION["userid"])){
+                echo '<a href="forum.php" class="w3-bar-item w3-button"><i class="fa fa-comments"></i> Fórum</a>';
+                echo '<a href="/" class="w3-bar-item w3-button"><i class="fa fa-user"></i>'. ' ' . $_SESSION["nev"] .'</a>';
+                echo '<a href="/logout.php" class="w3-bar-item w3-button"><i class="fa fa-sign-out"></i> Kijelentkezés</a>';
+            }else{
+                echo '<a href="/#forum" class="w3-bar-item w3-button"><i class="fa fa-comments"></i> Fórum</a>';
+                echo '<a href="regisztracio.php" class="w3-bar-item w3-button"><i class="fa fa-user-plus"></i> Regisztráció</a>';
+                echo '<a href="bejelentkezes.php" class="w3-bar-item w3-button"><i class="fa fa-sign-in"></i> Bejelentkezés</a>';
+            }
+            ?>
         </div>
         <!-- Hide right-floated links on small screens and replace them with a menu icon -->
 
@@ -114,11 +125,22 @@ if (isset($_POST['topic_megjelenites'])) {
 <!-- Sidebar on small screens when clicking the menu icon -->
 <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
     <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Bezár ×</a>
-    <a href="/#Bejelentkezes" onclick="w3_close()" class="w3-bar-item w3-button">Bejelentkezes</a>
-    <a href="/#Blogok" onclick="w3_close()" class="w3-bar-item w3-button">Blogok</a>
-    <a href="/#Csomagok" onclick="w3_close()" class="w3-bar-item w3-button">Csomagok</a>
-    <a href="/#forum" onclick="w3_close()" class="w3-bar-item w3-button">Fórum</a>
+
+    <a href="#/Blogok" onclick="w3_close()" class="w3-bar-item w3-button">Blogok</a>
+    <a href="#/Csomagok" onclick="w3_close()" class="w3-bar-item w3-button">Csomagok</a>
+    <?php
+    if(isset($_SESSION["userid"])){
+        echo '<a href="forum.php" onclick="w3_close()" class="w3-bar-item w3-button">Fórum</a>';
+        echo '<a href="/" onclick="w3_close()" class="w3-bar-item w3-button"> '.$_SESSION["nev"].'</a>';
+        echo '<a href="logout.php" onclick="w3_close()" class="w3-bar-item w3-button">Kijelentkezés</a>';
+    }else{
+        echo '<a href="#forum" onclick="w3_close()" class="w3-bar-item w3-button">Fórum</a>';
+        echo '<a href="regisztracio.php" onclick="w3_close()" class="w3-bar-item w3-button">Regisztráció</a>';
+        echo '<a href="bejelentkezes.php" onclick="w3_close()" class="w3-bar-item w3-button">Bejelentkezes</a>';
+    }
+    ?>
 </nav>
+
 
 <!-- Header with full-height image -->
 <header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
@@ -131,6 +153,7 @@ if (isset($_POST['topic_megjelenites'])) {
 
 <div class="w3-container " style="padding:128px 16px" id="forum">
     <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
+
 
         <?php if(isset($_SESSION["userid"])) : ?>
         <div class="w3-col l7 m6 w3-margin-bottom w3-black w3-center">
